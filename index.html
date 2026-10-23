@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Borden Booster</title>
+<meta name="description" content="Alle Nederlandse verkeersborden in 3D. Gratis, zonder abonnement.">
+<meta name="theme-color" content="#0a0718">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Borden Booster">
+<meta property="og:description" content="Alle Nederlandse verkeersborden in 3D. Gratis, zonder abonnement.">
+<meta property="og:image" content="https://multibeastdev.github.io/assets/og-image.jpg">
+<meta property="og:url" content="https://multibeastdev.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="apple-itunes-app" content="app-id=6821896193">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0a0718;
+  --line:rgba(255,255,255,.08);
+  --text:#f2f4fa;
+  --soft:#9aa3bd;
+  --yellow:#ffc533;
+  --green:#2ee86f;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--night)}
+body{font:400 17px/1.6 "Plus Jakarta Sans",system-ui,-apple-system,sans-serif;color:var(--text);background:var(--night);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%}
+.wrap{width:100%;max-width:720px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* sterrenhemel */
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:1}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:60px 120px}
+.icon{width:140px;height:140px;border-radius:32px;box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 80px rgba(140,70,200,.35),0 0 0 1px rgba(255,255,255,.08)}
+h1{font-size:clamp(40px,7vw,64px);line-height:1.02;font-weight:800;letter-spacing:-.03em;margin-top:30px}
+.tag{margin-top:14px;font-size:clamp(17px,2.2vw,20px);color:var(--soft)}
+.store{display:inline-flex;align-items:center;gap:12px;margin-top:36px;padding:16px 26px;border-radius:18px;background:var(--yellow);color:#1a1300;text-decoration:none;font-weight:800;font-size:18px;box-shadow:0 12px 34px rgba(255,197,51,.25);transition:transform .2s,box-shadow .2s}
+.store:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(255,197,51,.35)}
+.store:active{transform:translateY(0)}
+.store svg{width:22px;height:22px}
+.soon{margin-top:16px;font-size:15px;color:var(--soft);display:flex;align-items:center;gap:8px}
+.soon i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.points{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:34px}
+.points span{font-size:14px;font-weight:500;color:var(--soft);padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.down{position:absolute;bottom:max(28px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--soft);font-size:14px;text-decoration:none}
+.down .road{width:4px;height:44px;background:repeating-linear-gradient(180deg,var(--yellow) 0 12px,transparent 12px 22px);animation:dash 1.2s linear infinite;border-radius:2px}
+@keyframes dash{to{background-position:0 22px}}
+.hero > *:not(.down){animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero > *:nth-child(2){animation-delay:.08s}.hero > *:nth-child(3){animation-delay:.16s}.hero > *:nth-child(4){animation-delay:.24s}.hero > *:nth-child(5){animation-delay:.32s}.hero > *:nth-child(6){animation-delay:.4s}.hero > *:nth-child(7){animation-delay:.48s}
+.hero .icon{animation:rise .9s cubic-bezier(.2,.8,.2,1) both,float 6s 1s ease-in-out infinite alternate}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+
+/* secties */
+section.info{padding-block:40px}
+.panel{background:rgba(24,19,52,.82);border:1px solid var(--line);border-radius:26px;padding:clamp(26px,5vw,44px)}
+.panel h2{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.panel p{margin-top:14px;color:#d3d8e6}
+.panel ul{list-style:none;margin-top:20px;display:grid;gap:12px}
+.panel li{display:flex;gap:12px;color:#d3d8e6}
+.panel li::before{content:"";flex:none;width:9px;height:9px;margin-top:9px;background:var(--yellow);transform:rotate(45deg);border-radius:1px}
+.panel .note{margin-top:22px;color:var(--soft);font-size:15px}
+.panel a{color:var(--yellow);text-decoration:none;font-weight:700}
+.panel a:hover{text-decoration:underline}
+.by{display:flex;align-items:center;gap:14px;margin-top:22px;color:#d3d8e6}
+.by img{width:44px;height:44px;border-radius:11px}
+
+.social{display:flex;gap:12px;margin-top:22px}
+.social a{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:var(--text);background:rgba(255,255,255,.07);border:1px solid var(--line);transition:background .2s,transform .2s,color .2s}
+.social a:hover{background:rgba(255,255,255,.14);transform:translateY(-2px);color:var(--yellow)}
+.social svg{width:22px;height:22px}
+footer{padding-block:40px calc(48px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--soft);font-size:14px}
+footer nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 22px;margin-bottom:10px}
+footer a{text-decoration:none;font-weight:500}
+footer a:hover{color:var(--text)}
+
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main>
+  <section class="hero wrap">
+    <img class="icon" src="assets/icon.png" alt="Borden Booster app-icoon" width="140" height="140">
+    <h1>Borden Booster</h1>
+    <p class="tag">Alle Nederlandse verkeersborden in 3D</p>
+    <a class="store" href="https://apps.apple.com/nl/app/borden-booster/id6821896193">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+      Download in de App Store
+    </a>
+    <p class="soon"><i></i>Gratis · Binnenkort ook op Google Play</p>
+    <div class="points"><span>Geen abonnement</span><span>Officiële RVV-borden</span><span>Geen account nodig</span></div>
+    <div class="social"><a href="https://www.instagram.com/bordenbooster/" aria-label="Borden Booster op Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/channel/UCXt4DkJf9iYVtE9spl7LWUw" aria-label="Borden Booster op YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.6 15.1V8.9l5.8 3.1z"/></svg></a></div>
+    <a class="down" href="#over"><span class="road"></span>Meer info</a>
+  </section>
+
+  <section class="info" id="over">
+    <div class="wrap">
+      <div class="panel">
+        <h2>Over Borden Booster</h2>
+        <p>Wie zijn theorie haalt, moet honderden verkeersborden kennen. De meeste apps daarvoor zijn platte plaatjes met een vraag eronder, of zetten het nuttige deel achter een abonnement. Ik wilde iets dat beter blijft hangen: borden die je in 3D kunt ronddraaien, en echte situaties op de weg waarin je ziet wat zo'n bord van je vraagt.</p>
+        <ul>
+          <li>Geen abonnement. Niet nu, en ook niet later.</li>
+          <li>Advertenties weg met één eenmalige aankoop.</li>
+          <li>Alle Nederlandse borden in 3D, op basis van de officiële tekeningen uit het RVV 1990.</li>
+          <li>Een 3D-verkeerssituatie per bord, met uitleg wat je moet doen.</li>
+        </ul>
+        <p class="note">Borden Booster is een leerhulpmiddel. De officiële regels gaan altijd voor.</p>
+        <div class="by"><img src="assets/icon.png" alt=""><span>Gemaakt door Nick · <a href="mailto:Nickklh@icloud.com">Nickklh@icloud.com</a></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info" id="privacy">
+    <div class="wrap">
+      <div class="panel">
+        <h2>Privacy</h2>
+        <p>Borden Booster heeft geen accounts en geen eigen servers. Je voortgang en instellingen blijven op je eigen apparaat. Ik kan die gegevens niet zien.</p>
+        <ul>
+          <li>Advertenties komen van Google AdMob. In de EU vraagt de app eerst je toestemming voor gepersonaliseerde advertenties.</li>
+          <li>Aankopen lopen via Apple of Google. Ik ontvang geen betaalgegevens.</li>
+          <li>Stuur je feedback, dan zie ik alleen je e-mailadres en je bericht.</li>
+        </ul>
+        <p><a href="https://multibeastdev.github.io/BordenBooster/privacy.html">Lees het volledige privacybeleid</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav>
+      <a href="https://apps.apple.com/nl/app/borden-booster/id6821896193">App Store</a>
+      <a href="https://multibeastdev.github.io/BordenBooster/">Ondersteuning</a>
+      <a href="https://multibeastdev.github.io/BordenBooster/privacy.html">Privacybeleid</a>
+      <a href="https://www.instagram.com/bordenbooster/">Instagram</a>
+      <a href="https://www.youtube.com/channel/UCXt4DkJf9iYVtE9spl7LWUw">YouTube</a>
+      <a href="mailto:Nickklh@icloud.com">Contact</a>
+    </nav>
+    <p>© 2026 Borden Booster</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var c=document.getElementById('sky'), x=c.getContext('2d'), stars=[], W, H, D;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){
+    D=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    c.width=W*D; c.height=H*D; x.setTransform(D,0,0,D,0,0);
+    var n=Math.round(W*H/2600); stars=[];
+    for(var i=0;i<n;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()<.9?Math.random()*1.1+.3:Math.random()*1.6+1,a:Math.random()*.7+.3,s:Math.random()*2+.5,p:Math.random()*6.3});
+  }
+  var shoot=null, last=0;
+  function draw(t){
+    var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a0718'); g.addColorStop(.6,'#120d2c'); g.addColorStop(1,'#1a1340');
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+    var neb=[[.72,.22,.55,'120,50,170',.32],[.2,.8,.5,'20,110,140',.22],[.5,.5,.7,'60,40,140',.18]];
+    for(var k=0;k<neb.length;k++){ var n=neb[k], cx2=n[0]*W, cy2=n[1]*H-(reduce?0:scrollY*0.05), rr=n[2]*Math.max(W,H);
+      var ng=x.createRadialGradient(cx2,cy2,0,cx2,cy2,rr); ng.addColorStop(0,'rgba('+n[3]+','+n[4]+')'); ng.addColorStop(1,'rgba('+n[3]+',0)');
+      x.fillStyle=ng; x.fillRect(0,0,W,H); }
+    var off=reduce?0:scrollY*0.15;
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i], tw=reduce?1:(.6+.4*Math.sin(t/1000*s.s+s.p));
+      var y=((s.y-off*(s.r/2))%H+H)%H;
+      x.globalAlpha=s.a*tw; x.fillStyle=s.r>1.5?'#fff3d1':'#ffffff';
+      x.beginPath(); x.arc(s.x,y,s.r,0,6.283); x.fill();
+    }
+    if(!reduce){
+      if(!shoot && t-last>6000 && Math.random()<.01){ shoot={x:Math.random()*W*.7+W*.15,y:Math.random()*H*.3,l:0}; last=t; }
+      if(shoot){
+        shoot.l+=14; var a=1-shoot.l/420;
+        x.globalAlpha=Math.max(a,0); x.strokeStyle='#fff'; x.lineWidth=1.5;
+        x.beginPath(); x.moveTo(shoot.x+shoot.l,shoot.y+shoot.l*.45); x.lineTo(shoot.x+shoot.l-60,shoot.y+(shoot.l-60)*.45); x.stroke();
+        if(a<=0) shoot=null;
+      }
+    }
+    x.globalAlpha=1;
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize',size); size(); requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
