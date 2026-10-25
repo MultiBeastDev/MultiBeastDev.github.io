@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
 <style>
 :root{
   --night:#0a0718;
@@ -35,6 +36,28 @@ a{color:inherit}
 img{display:block;max-width:100%}
 .wrap{width:100%;max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 .narrow{max-width:720px}
+
+/* balk die verschijnt na de hero: secties, voortgang, download */
+.bar{position:fixed;top:0;left:0;right:0;z-index:5;transform:translateY(-110%);transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  background:rgba(10,7,24,.6);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid var(--line)}
+.bar.show{transform:none}
+.bar-in{display:flex;align-items:center;gap:22px;height:62px;padding-top:env(safe-area-inset-top,0px)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.brand img{width:30px;height:30px;border-radius:8px}
+.spy{display:flex;gap:4px;margin-left:auto}
+.spy a{position:relative;padding:7px 12px;border-radius:999px;font-size:14.5px;font-weight:700;color:var(--soft);text-decoration:none;transition:color .25s,background .25s}
+.spy a:hover{color:var(--text)}
+.spy a.on{color:var(--text);background:rgba(255,255,255,.08)}
+.mini{padding:9px 16px;border-radius:999px;background:var(--yellow);color:#1a1300;font-weight:800;font-size:14.5px;text-decoration:none;white-space:nowrap;transition:transform .2s}
+.mini:hover{transform:translateY(-1px)}
+.prog{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--yellow),#ff9f43)}
+section[id]{scroll-margin-top:72px}
+
+/* in beeld komen tijdens het scrollen */
+.js [data-rv]{opacity:0;transform:translateY(36px) scale(.985);filter:blur(10px);
+  transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1),filter .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0) * 90ms)}
+.js [data-rv].in{opacity:1;transform:none;filter:none}
+.par,.shot .phone,.hero-text,.yt{will-change:transform}
 
 /* sterrenhemel */
 #sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -103,6 +126,9 @@ section.video{padding-block:20px 30px;text-align:center}
 section.what{padding-block:40px 30px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
 .f{background:rgba(24,19,52,.78);border:1px solid var(--line);border-radius:22px;padding:22px 22px 24px}
+.js .f.in{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,opacity .9s,filter .9s}
+.js .f.in:hover{transform:translateY(-5px);border-color:rgba(255,197,51,.35);background:rgba(34,27,70,.85)}
+.f .count{font-variant-numeric:tabular-nums}
 .f svg{width:30px;height:30px;color:var(--yellow)}
 .f h3{margin-top:14px;font-size:19px;font-weight:800;letter-spacing:-.01em}
 .f p{margin-top:6px;font-size:15.5px;line-height:1.5;color:#c3c9db}
@@ -154,6 +180,8 @@ footer a:hover{color:var(--text)}
   .shots{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;margin-inline:-20px;padding:0 20px 8px;scrollbar-width:none}
   .shots::-webkit-scrollbar{display:none}
   .shot{flex:none;width:min(230px,62vw);scroll-snap-align:center}
+  .spy{display:none}
+  .mini{margin-left:auto}
 }
 @media (max-width:560px){
   .grid{grid-template-columns:1fr}
@@ -161,14 +189,25 @@ footer a:hover{color:var(--text)}
   .f h3{margin-top:0}
   .f p{grid-column:2}
 }
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js [data-rv]{opacity:1;transform:none;filter:none}}
 </style>
 </head>
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
 
+<header class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#top"><img src="assets/icon.png" alt="" width="30" height="30">Borden Booster</a>
+    <nav class="spy" aria-label="Secties">
+      <a href="#video">Video</a><a href="#wat">Functies</a><a href="#schermen">Schermen</a><a href="#over">Over</a>
+    </nav>
+    <a class="mini" href="https://apps.apple.com/nl/app/borden-booster/id6821896193">Download</a>
+  </div>
+  <i class="prog" id="prog"></i>
+</header>
+
 <main>
-  <section class="hero wrap">
+  <section class="hero wrap" id="top">
     <div class="hero-text">
       <img class="icon" src="assets/icon.png" alt="Borden Booster app-icoon" width="112" height="112">
       <a class="new" href="#video"><b>NIEUW</b>Versie 1.4: bekijk wat er nieuw is</a>
@@ -183,13 +222,13 @@ footer a:hover{color:var(--text)}
       <div class="social"><a href="https://www.instagram.com/bordenbooster/" aria-label="Borden Booster op Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/channel/UCXt4DkJf9iYVtE9spl7LWUw" aria-label="Borden Booster op YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.6 15.1V8.9l5.8 3.1z"/></svg></a></div>
     </div>
     <div class="hero-phone">
-      <div class="phone"><img src="assets/shots/vandaag.jpg" alt="Het beginscherm Vandaag met een 3D-voorrangswegbord en de Daily Challenge" width="600" height="1304"></div>
+      <div class="par" id="heroPar"><div class="phone"><img src="assets/shots/vandaag.jpg" alt="Het beginscherm Vandaag met een 3D-voorrangswegbord en de Daily Challenge" width="600" height="1304"></div></div>
     </div>
   </section>
 
   <section class="video wrap" id="video">
-    <p class="kicker">Nieuw in 1.4</p>
-    <h2>Alles wat nieuw is, in anderhalve minuut</h2>
+    <p class="kicker" data-rv>Nieuw in 1.4</p>
+    <h2 data-rv>Alles wat nieuw is, in anderhalve minuut</h2>
     <div class="yt" data-id="SclzMmutPkc">
       <button type="button" aria-label="Video afspelen: What's new in Borden Booster 1.4">
         <img src="assets/video-thumb.jpg" alt="" loading="lazy" width="1280" height="720">
@@ -197,40 +236,40 @@ footer a:hover{color:var(--text)}
         <span class="len" aria-hidden="true">1:35</span>
       </button>
     </div>
-    <p class="yt-note">De video komt van YouTube en laadt pas als je op afspelen drukt. <a href="https://youtu.be/SclzMmutPkc">Bekijk op YouTube</a></p>
+    <p class="yt-note" data-rv>De video komt van YouTube en laadt pas als je op afspelen drukt. <a href="https://youtu.be/SclzMmutPkc">Bekijk op YouTube</a></p>
   </section>
 
   <section class="what wrap" id="wat">
-    <p class="kicker">Wat zit erin</p>
-    <h2>Oefenen dat blijft hangen</h2>
-    <p class="lead">Korte rondes, echte borden en een beetje spel. Zo ken je ze op het examen zonder erover na te denken.</p>
+    <p class="kicker" data-rv>Wat zit erin</p>
+    <h2 data-rv>Oefenen dat blijft hangen</h2>
+    <p class="lead" data-rv>Korte rondes, echte borden en een beetje spel. Zo ken je ze op het examen zonder erover na te denken.</p>
     <div class="grid">
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="M12 7.5 16.5 12 12 16.5 7.5 12z"/></svg>
-        <h3>157 borden in 3D</h3>
+        <h3><span class="count" data-to="157">157</span> borden in 3D</h3>
         <p>Op basis van de officiële tekeningen. Draai elk bord rond en zie wat het van je vraagt.</p>
       </div>
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 7-2.8 7-6.8 0-3.3-2-5.6-3.6-7.4-.4 1.9-1.5 3.1-2.9 3.6C13 7.6 11.6 4.6 9 2.5c.2 3-1.6 5-3 6.8C4.7 11 4 12.8 4 15.2 4 19.2 7 22 12 22z"/></svg>
         <h3>Daily Challenge</h3>
         <p>Elke dag 10 vragen. Houd je streak vast en klim op de ranglijst in Game Center.</p>
       </div>
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="8"/><path d="M12 9.5v4l2.5 2.5M9.5 2.5h5M19 6l1.5-1.5"/></svg>
         <h3>Bordenrace</h3>
         <p>30 of 60 seconden: zoveel mogelijk borden goed. Hoe ver kom jij?</p>
       </div>
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="19" r="2.2"/><circle cx="19" cy="5" r="2.2"/><path d="M7.2 19H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7.8"/></svg>
         <h3>Lessen als leerpad</h3>
         <p>Voorrang, agent en verkeersregelaar, alcohol en drugs: korte stappen met snelle checks.</p>
       </div>
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18a9 9 0 1 1 16 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14.5" r="1.2" fill="currentColor"/></svg>
         <h3>Dashboardlampjes</h3>
         <p>Alle 32 lampjes bekijken en oefenen. Gratis.</p>
       </div>
-      <div class="f">
+      <div class="f" data-rv>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-2.8 5 2.8-1.5-8"/></svg>
         <h3>Medailles en voortgang</h3>
         <p>Brons, zilver en goud per bord, en precies zien welke borden je al beheerst.</p>
@@ -238,20 +277,20 @@ footer a:hover{color:var(--text)}
     </div>
   </section>
 
-  <section class="screens wrap" aria-label="Schermen uit de app">
-    <p class="kicker">Zo ziet het eruit</p>
-    <h2>Vier tabs, één nieuwe nachtstijl</h2>
+  <section class="screens wrap" id="schermen" aria-label="Schermen uit de app">
+    <p class="kicker" data-rv>Zo ziet het eruit</p>
+    <h2 data-rv>Vier tabs, één nieuwe nachtstijl</h2>
     <div class="shots">
-      <figure class="shot"><div class="phone"><img src="assets/shots/vandaag.jpg" alt="Tab Vandaag" loading="lazy" width="600" height="1304"></div><figcaption><b>Vandaag</b><span>Je Daily Challenge onder een 3D-bord</span></figcaption></figure>
-      <figure class="shot"><div class="phone"><img src="assets/shots/borden.jpg" alt="Tab Borden met alle snelheidsborden" loading="lazy" width="600" height="1304"></div><figcaption><b>Borden</b><span>Zoeken, filteren en elk bord in 3D</span></figcaption></figure>
-      <figure class="shot"><div class="phone"><img src="assets/shots/leren.jpg" alt="Tab Leren met lessen" loading="lazy" width="600" height="1304"></div><figcaption><b>Leren</b><span>Lessen, Bordenrace en 10 nieuwe borden</span></figcaption></figure>
-      <figure class="shot"><div class="phone"><img src="assets/shots/voortgang.jpg" alt="Tab Voortgang met punten en medailles" loading="lazy" width="600" height="1304"></div><figcaption><b>Voortgang</b><span>Punten, levels en medailles</span></figcaption></figure>
+      <figure class="shot" data-rv><div class="phone"><img src="assets/shots/vandaag.jpg" alt="Tab Vandaag" loading="lazy" width="600" height="1304"></div><figcaption><b>Vandaag</b><span>Je Daily Challenge onder een 3D-bord</span></figcaption></figure>
+      <figure class="shot" data-rv><div class="phone"><img src="assets/shots/borden.jpg" alt="Tab Borden met alle snelheidsborden" loading="lazy" width="600" height="1304"></div><figcaption><b>Borden</b><span>Zoeken, filteren en elk bord in 3D</span></figcaption></figure>
+      <figure class="shot" data-rv><div class="phone"><img src="assets/shots/leren.jpg" alt="Tab Leren met lessen" loading="lazy" width="600" height="1304"></div><figcaption><b>Leren</b><span>Lessen, Bordenrace en 10 nieuwe borden</span></figcaption></figure>
+      <figure class="shot" data-rv><div class="phone"><img src="assets/shots/voortgang.jpg" alt="Tab Voortgang met punten en medailles" loading="lazy" width="600" height="1304"></div><figcaption><b>Voortgang</b><span>Punten, levels en medailles</span></figcaption></figure>
     </div>
   </section>
 
   <section class="info" id="over">
     <div class="wrap narrow">
-      <div class="panel">
+      <div class="panel" data-rv>
         <h2>Over Borden Booster</h2>
         <p>Wie zijn theorie haalt, moet honderden verkeersborden kennen. De meeste apps daarvoor zijn platte plaatjes met een vraag eronder, of zetten het nuttige deel achter een abonnement. Ik wilde iets dat beter blijft hangen: borden die je in 3D kunt ronddraaien, en echte situaties op de weg waarin je ziet wat zo'n bord van je vraagt.</p>
         <ul>
@@ -268,7 +307,7 @@ footer a:hover{color:var(--text)}
 
   <section class="info" id="privacy">
     <div class="wrap narrow">
-      <div class="panel">
+      <div class="panel" data-rv>
         <h2>Privacy</h2>
         <p>Borden Booster heeft geen accounts en geen eigen servers. Je voortgang en instellingen blijven op je eigen apparaat. Ik kan die gegevens niet zien.</p>
         <ul>
@@ -283,7 +322,7 @@ footer a:hover{color:var(--text)}
     </div>
   </section>
 
-  <section class="cta wrap">
+  <section class="cta wrap" data-rv>
     <img class="icon" src="assets/icon.png" alt="" width="84" height="84">
     <h2>Klaar voor je theorie?</h2>
     <a class="store" href="https://apps.apple.com/nl/app/borden-booster/id6821896193">
@@ -307,6 +346,47 @@ footer a:hover{color:var(--text)}
   </div>
 </footer>
 
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ease=function(x){return 1-Math.pow(1-x,3)}, clamp=function(x){return Math.max(0,Math.min(1,x))};
+
+  // sections come in while scrolling; siblings follow each other a little later
+  var rv=[].slice.call(document.querySelectorAll('[data-rv]'));
+  rv.forEach(function(el){var sib=[].filter.call(el.parentNode.children,function(c){return c.hasAttribute('data-rv')});el.style.setProperty('--i',Math.min(sib.indexOf(el),6));});
+  function count(el){var to=+el.dataset.to,t0=null;function step(t){if(!t0)t0=t;var k=ease(clamp((t-t0)/1300));el.textContent=Math.round(to*k);if(k<1)requestAnimationFrame(step);}el.textContent='0';requestAnimationFrame(step);}
+  function show(el){el.classList.add('in');var c=el.querySelector('.count');if(c&&!reduce)count(c);setTimeout(function(){el.style.transitionDelay='0s'},1400);}
+  if(reduce||!('IntersectionObserver' in window)){rv.forEach(show);}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px',threshold:.12});rv.forEach(function(el){io.observe(el)});}
+
+  // bar with sections, active section and progress
+  var bar=document.getElementById('bar'),prog=document.getElementById('prog'),hero=document.getElementById('top');
+  var links=[].slice.call(document.querySelectorAll('.spy a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var heroText=document.querySelector('.hero-text'),heroPar=document.getElementById('heroPar'),yt=document.querySelector('.yt');
+  var shots=[].slice.call(document.querySelectorAll('.shot .phone')),depth=[.55,-.35,.45,-.25];
+  var ticking=false;
+  function frame(){
+    ticking=false;
+    var y=scrollY,vh=innerHeight,max=document.documentElement.scrollHeight-vh;
+    bar.classList.toggle('show',y>hero.offsetHeight*.55);
+    prog.style.transform='scaleX('+(max>0?y/max:0)+')';
+    var cur=-1;secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<vh*.38)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)});
+    if(reduce)return;
+    var wide=innerWidth>860;
+    // hero drifts away a bit slower than the page
+    var h=clamp(y/(vh*.9));
+    heroText.style.transform='translateY('+(y*.16).toFixed(1)+'px)';heroText.style.opacity=(1-h*.75).toFixed(3);
+    heroPar.style.transform='translateY('+(y*(wide?-.07:.05)).toFixed(1)+'px) rotate('+(h*3).toFixed(2)+'deg)';
+    // the video grows into place
+    if(yt){var r=yt.getBoundingClientRect(),k=ease(clamp((vh-r.top)/(vh*.65)));yt.style.transform='scale('+(.88+.12*k).toFixed(4)+') translateY('+((1-k)*40).toFixed(1)+'px)';}
+    // the four phones float at different depths
+    shots.forEach(function(ph,i){if(!wide){ph.style.transform='';return;}var r=ph.getBoundingClientRect(),d=(r.top+r.height/2-vh/2)/vh;ph.style.transform='translateY('+(d*depth[i]*110).toFixed(1)+'px) rotate('+(d*depth[i]*4).toFixed(2)+'deg)';});
+  }
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame);}}
+  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);frame();
+})();
+</script>
 <script>
 document.querySelectorAll('.yt').forEach(function(box){
   box.querySelector('button').addEventListener('click',function(){
