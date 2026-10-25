@@ -81,6 +81,24 @@ h1{font-size:clamp(42px,6vw,68px);line-height:1.02;font-weight:800;letter-spacin
 h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin-top:8px}
 .lead{margin-top:12px;color:#c9cee0;max-width:56ch}
 
+/* video */
+section.video{padding-block:20px 30px;text-align:center}
+.video h2{text-wrap:balance}
+.yt{position:relative;max-width:880px;margin:26px auto 0;aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:#05040d;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(140,80,255,.22)}
+.yt iframe,.yt button{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt button{padding:0;cursor:pointer;background:none;display:block}
+.yt button img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .3s}
+.yt button:hover img{transform:scale(1.025);filter:brightness(1.06)}
+.yt .play{position:absolute;left:50%;top:50%;width:clamp(64px,9vw,92px);height:clamp(64px,9vw,92px);transform:translate(-50%,-50%);border-radius:50%;
+  background:var(--yellow);color:#1a1300;display:grid;place-items:center;box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 0 10px rgba(255,197,51,.18);transition:transform .2s}
+.yt button:hover .play{transform:translate(-50%,-50%) scale(1.07)}
+.yt .play svg{width:42%;height:42%;margin-left:8%}
+.yt .len{position:absolute;right:14px;bottom:14px;padding:4px 10px;border-radius:8px;background:rgba(0,0,0,.7);color:#fff;font-size:14px;font-weight:700}
+.yt-note{margin-top:12px;font-size:14px;color:var(--soft)}
+.yt-note a{color:var(--yellow);text-decoration:none;font-weight:700}
+.yt-note a:hover{text-decoration:underline}
+
 /* wat zit erin */
 section.what{padding-block:40px 30px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
@@ -153,7 +171,7 @@ footer a:hover{color:var(--text)}
   <section class="hero wrap">
     <div class="hero-text">
       <img class="icon" src="assets/icon.png" alt="Borden Booster app-icoon" width="112" height="112">
-      <a class="new" href="#wat"><b>NIEUW</b>Versie 1.4: helemaal nieuw design</a>
+      <a class="new" href="#video"><b>NIEUW</b>Versie 1.4: bekijk wat er nieuw is</a>
       <h1>Borden Booster</h1>
       <p class="tag">Alle 157 Nederlandse verkeersborden in 3D. Leer ze voor je theorie-examen, elke dag een beetje.</p>
       <a class="store" href="https://apps.apple.com/nl/app/borden-booster/id6821896193">
@@ -167,6 +185,19 @@ footer a:hover{color:var(--text)}
     <div class="hero-phone">
       <div class="phone"><img src="assets/shots/vandaag.jpg" alt="Het beginscherm Vandaag met een 3D-voorrangswegbord en de Daily Challenge" width="600" height="1304"></div>
     </div>
+  </section>
+
+  <section class="video wrap" id="video">
+    <p class="kicker">Nieuw in 1.4</p>
+    <h2>Alles wat nieuw is, in anderhalve minuut</h2>
+    <div class="yt" data-id="SclzMmutPkc">
+      <button type="button" aria-label="Video afspelen: What's new in Borden Booster 1.4">
+        <img src="assets/video-thumb.jpg" alt="" loading="lazy" width="1280" height="720">
+        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4.5v15l13-7.5z"/></svg></span>
+        <span class="len" aria-hidden="true">1:35</span>
+      </button>
+    </div>
+    <p class="yt-note">De video komt van YouTube en laadt pas als je op afspelen drukt. <a href="https://youtu.be/SclzMmutPkc">Bekijk op YouTube</a></p>
   </section>
 
   <section class="what wrap" id="wat">
@@ -276,6 +307,19 @@ footer a:hover{color:var(--text)}
   </div>
 </footer>
 
+<script>
+document.querySelectorAll('.yt').forEach(function(box){
+  box.querySelector('button').addEventListener('click',function(){
+    var f=document.createElement('iframe');
+    f.src='https://www.youtube-nocookie.com/embed/'+box.dataset.id+'?autoplay=1&rel=0&playsinline=1';
+    f.title="What's new in Borden Booster 1.4";
+    f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    f.referrerPolicy='strict-origin-when-cross-origin';
+    f.allowFullscreen=true;
+    box.innerHTML=''; box.appendChild(f);
+  });
+});
+</script>
 <script>
 (function(){
   var c=document.getElementById('sky'), x=c.getContext('2d'), stars=[], W, H, D;
