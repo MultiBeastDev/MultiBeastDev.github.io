@@ -91,7 +91,10 @@ h1{font-size:clamp(42px,6vw,68px);line-height:1.02;font-weight:800;letter-spacin
 .social svg{width:22px;height:22px}
 .hero-phone{position:relative;justify-self:center;width:min(320px,100%)}
 .hero-phone::before{content:"";position:absolute;inset:8% -30%;background:radial-gradient(closest-side,rgba(140,80,255,.45),transparent);filter:blur(10px);z-index:-1}
-.hero-phone .phone{animation:float 7s ease-in-out infinite alternate}
+.hero-phone .par{position:relative}
+.hero-phone .front{position:relative;z-index:1;animation:float 7s ease-in-out infinite alternate}
+.hero-phone .back{position:absolute;width:84%;left:46%;top:7%;transform:rotate(9deg);filter:brightness(.72) saturate(.9);animation:float2 8s ease-in-out infinite alternate}
+@keyframes float2{from{transform:rotate(9deg) translateY(0)}to{transform:rotate(7deg) translateY(10px)}}
 .hero-text > *{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
 .hero-text > *:nth-child(2){animation-delay:.06s}.hero-text > *:nth-child(3){animation-delay:.12s}.hero-text > *:nth-child(4){animation-delay:.18s}
 .hero-text > *:nth-child(5){animation-delay:.24s}.hero-text > *:nth-child(6){animation-delay:.3s}.hero-text > *:nth-child(7){animation-delay:.36s}.hero-text > *:nth-child(8){animation-delay:.42s}
@@ -140,6 +143,7 @@ section.screens{padding-block:50px 40px}
 .shot figcaption{margin-top:14px;text-align:center}
 .shot figcaption b{display:block;font-size:17px;font-weight:800}
 .shot figcaption span{display:block;font-size:14.5px;color:var(--soft);line-height:1.4;margin-top:2px}
+.dots{display:none}
 
 /* over / privacy */
 section.info{padding-block:30px}
@@ -169,25 +173,47 @@ footer a:hover{color:var(--text)}
 :focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:8px}
 
 @media (max-width:860px){
-  .hero{grid-template-columns:1fr;text-align:center;gap:40px;padding-block:56px 40px;min-height:auto}
-  .hero-text{align-items:center}
-  .tag{margin-inline:auto}
-  .points{justify-content:center}
-  .hero-phone{width:min(250px,64vw)}
-  .soon{display:block;text-wrap:balance;max-width:30ch}
-  .soon i{display:inline-block;vertical-align:middle;margin:-2px 8px 0 0}
+  .hero{grid-template-columns:1fr;gap:6px;padding-block:30px 0;min-height:auto}
+  .hero-text{align-items:flex-start;text-align:left}
+  .icon{width:64px;height:64px;border-radius:15px}
+  .new{margin-top:22px;font-size:13.5px}
+  h1{font-size:clamp(42px,12vw,56px);letter-spacing:-.04em;margin-top:14px}
+  .tag{font-size:18px;line-height:1.5;margin-top:10px;max-width:none;color:#cdd2e3}
+  .store{width:100%;justify-content:center;margin-top:24px;padding:17px 22px}
+  .soon{margin-top:14px;font-size:14px;text-wrap:balance;align-items:flex-start}
+  .soon i{margin-top:7px}
+  .points{gap:6px 16px;margin-top:10px}
+  .points span{padding:0;background:none;border:0;font-size:14px;display:flex;align-items:center;gap:7px;color:#b9c0d6}
+  .points span::before{content:"";width:15px;height:15px;flex:none;background:var(--yellow);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5'/%3E%3C/svg%3E") center/contain no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5'/%3E%3C/svg%3E") center/contain no-repeat}
+  .social{display:none}
+  /* the phones peek in at the bottom of the first screen and rise while you scroll */
+  .hero-phone{width:auto;justify-self:stretch;height:min(112vw,540px);margin-inline:-20px;overflow:hidden;
+    -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 98%);mask-image:linear-gradient(180deg,#000 62%,transparent 98%)}
+  .hero-phone::before{inset:4% 0 0}
+  .hero-phone .par{width:58%;margin:38px 0 0 13%}
+  section.video{text-align:left;padding-top:10px}
+  .yt{margin-top:22px;border-radius:20px}
   .grid{grid-template-columns:repeat(2,1fr)}
-  .shots{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;margin-inline:-20px;padding:0 20px 8px;scrollbar-width:none}
+  .shots{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin-inline:-20px;padding:6px 20px 8px;scrollbar-width:none;scroll-padding-inline:20px}
   .shots::-webkit-scrollbar{display:none}
-  .shot{flex:none;width:min(230px,62vw);scroll-snap-align:center}
+  .shot{flex:none;width:min(230px,60vw);scroll-snap-align:start}
+  .dots{display:flex;justify-content:center;gap:7px;margin-top:16px}
+  .dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.22);transition:width .3s,background .3s}
+  .dots i.on{width:22px;background:var(--yellow)}
   .spy{display:none}
   .mini{margin-left:auto}
 }
 @media (max-width:560px){
-  .grid{grid-template-columns:1fr}
-  .f{display:grid;grid-template-columns:30px 1fr;column-gap:16px;align-items:start;padding:18px 20px}
-  .f h3{margin-top:0}
-  .f p{grid-column:2}
+  .grid{gap:10px;margin-top:24px}
+  .f{padding:16px 15px 17px;border-radius:18px}
+  .f svg{width:26px;height:26px}
+  .f h3{margin-top:10px;font-size:16px;line-height:1.25}
+  .f p{margin-top:5px;font-size:13.5px;line-height:1.45}
+  .panel{border-radius:22px;padding:24px 20px}
+  .panel p,.panel li{font-size:16px}
+  section.what,section.screens{padding-block:34px 24px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js [data-rv]{opacity:1;transform:none;filter:none}}
 </style>
@@ -222,7 +248,7 @@ footer a:hover{color:var(--text)}
       <div class="social"><a href="https://www.instagram.com/bordenbooster/" aria-label="Borden Booster op Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/channel/UCXt4DkJf9iYVtE9spl7LWUw" aria-label="Borden Booster op YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.6 15.1V8.9l5.8 3.1z"/></svg></a></div>
     </div>
     <div class="hero-phone">
-      <div class="par" id="heroPar"><div class="phone"><img src="assets/shots/vandaag.jpg" alt="Het beginscherm Vandaag met een 3D-voorrangswegbord en de Daily Challenge" width="600" height="1304"></div></div>
+      <div class="par" id="heroPar"><div class="phone back" aria-hidden="true"><img src="assets/shots/borden.jpg" alt="" width="600" height="1304"></div><div class="phone front"><img src="assets/shots/vandaag.jpg" alt="Het beginscherm Vandaag met een 3D-voorrangswegbord en de Daily Challenge" width="600" height="1304"></div></div>
     </div>
   </section>
 
@@ -286,6 +312,7 @@ footer a:hover{color:var(--text)}
       <figure class="shot" data-rv><div class="phone"><img src="assets/shots/leren.jpg" alt="Tab Leren met lessen" loading="lazy" width="600" height="1304"></div><figcaption><b>Leren</b><span>Lessen, Bordenrace en 10 nieuwe borden</span></figcaption></figure>
       <figure class="shot" data-rv><div class="phone"><img src="assets/shots/voortgang.jpg" alt="Tab Voortgang met punten en medailles" loading="lazy" width="600" height="1304"></div><figcaption><b>Voortgang</b><span>Punten, levels en medailles</span></figcaption></figure>
     </div>
+    <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
   </section>
 
   <section class="info" id="over">
@@ -376,8 +403,8 @@ footer a:hover{color:var(--text)}
     var wide=innerWidth>860;
     // hero drifts away a bit slower than the page
     var h=clamp(y/(vh*.9));
-    heroText.style.transform='translateY('+(y*.16).toFixed(1)+'px)';heroText.style.opacity=(1-h*.75).toFixed(3);
-    heroPar.style.transform='translateY('+(y*(wide?-.07:.05)).toFixed(1)+'px) rotate('+(h*3).toFixed(2)+'deg)';
+    heroText.style.transform=wide?'translateY('+(y*.16).toFixed(1)+'px)':'';heroText.style.opacity=(1-h*(wide?.75:.35)).toFixed(3);
+    heroPar.style.transform=wide?'translateY('+(y*-.07).toFixed(1)+'px) rotate('+(h*3).toFixed(2)+'deg)':'translateY('+(-Math.min(y,vh)*.1).toFixed(1)+'px) rotate('+(-h*2).toFixed(2)+'deg)';
     // the video grows into place
     if(yt){var r=yt.getBoundingClientRect(),k=ease(clamp((vh-r.top)/(vh*.65)));yt.style.transform='scale('+(.88+.12*k).toFixed(4)+') translateY('+((1-k)*40).toFixed(1)+'px)';}
     // the four phones float at different depths
@@ -385,6 +412,9 @@ footer a:hover{color:var(--text)}
   }
   function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame);}}
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);frame();
+  var strip=document.querySelector('.shots'),dots=[].slice.call(document.querySelectorAll('.dots i'));
+  if(strip&&dots.length){strip.addEventListener('scroll',function(){var c=strip.children,w=c[0].getBoundingClientRect().width+16,i=Math.round(strip.scrollLeft/w);
+    if(strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-4)i=c.length-1;dots.forEach(function(d,k){d.classList.toggle('on',k===i)});},{passive:true});}
 })();
 </script>
 <script>
